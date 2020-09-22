@@ -14,7 +14,10 @@ router.post('/:id/updateLocation', [
     driverController.shareDriverLocation);
 
 //route to switch drivers availability
-router.put('/switchAvailability', driverController.shareDriverLocation);
+router.put('/switchAvailability', driverController.switchAvailability);
+
+//route to get all the available drivers
+router.get('/getAllDrivers', driverController.getAllDrivers);
 
 //router for registring the driver
 router.post('/register', [

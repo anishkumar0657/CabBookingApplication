@@ -75,6 +75,18 @@ exports.shareDriverLocation = ((req, res, next) => {
     }
 });
 
+//function to get all the available drivers
+exports.getAllDrivers = ((req, res, next) => {
+    //send the response
+    res.status(200);
+    res.send(driverModel.fetchAll());
+});
+
+//function to switch the driver's availability
+exports.switchAvailability = ((req, res, next) => {
+
+});
+
 function isDriverAlreadyPresent(driverEmail, phoneNumber, licenseNumber, carNumber) {
     const existingDrivers = driverModel.fetchAll();
     const found = existingDrivers
