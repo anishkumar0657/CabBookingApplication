@@ -1,0 +1,20 @@
+.mainContainer{
+    width: 90%;
+    margin: auto;
+    height: auto;
+    background:white;
+    padding: 20px 40px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    
+}
+
+.add_driver_form{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+
+.drivers_table{
+    width: 90%;
+}

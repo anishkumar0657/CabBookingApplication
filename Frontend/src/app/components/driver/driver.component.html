@@ -1,0 +1,72 @@
+<div class="mainContainer">
+    <button mat-raised-button color="primary" *ngIf="!isInregisterMode" type="submit" class="register"
+        (click)="registerDriver()">Register</button>
+
+    <table *ngIf="!isInregisterMode" mat-table [dataSource]="dataSource" id="drivers_table" class="drivers_table">
+        <caption id="table_caption">Drivers Table</caption>
+
+        <!-- name Column -->
+        <ng-container id="name" matColumnDef="name">
+            <th id="name_header" mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}}</td>
+        </ng-container>
+
+        <!-- license number Column -->
+        <ng-container id="license" matColumnDef="license">
+            <th id="license_header" mat-header-cell *matHeaderCellDef> License Number </th>
+            <td mat-cell *matCellDef="let element"> {{element.licenseNumber}}</td>
+        </ng-container>
+
+        <!-- car number Column -->
+        <ng-container id="carNumber" matColumnDef="carNumber">
+            <th id="carNumber_header" mat-header-cell *matHeaderCellDef> Car Number </th>
+            <td mat-cell *matCellDef="let element"> {{element.carNumber}}</td>
+        </ng-container>
+
+        <!-- actions Column -->
+        <ng-container id="action" matColumnDef="action">
+            <th id="actions_header" mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let row">
+                <button type="submit" mat-raised-button (click)="onStatusChange(row.id)"
+                    class="change_status_modal_btn">Change Status</button>
+
+                <button type="submit" color="primary" mat-raised-button (click)="onLocationUpdate(row.id , row.name)"
+                    class="update_location_modal_btn">Update Location</button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+
+</div>
+
+<!-- form to fill wile registering a new driver -->
+<form *ngIf="isInregisterMode" class="add_driver_form">
+    <mat-form-field>
+        <input name="name" matInput placeholder="Name*" [(ngModel)]="driver.name">
+    </mat-form-field>
+    <mat-form-field class="email">
+        <mat-label>Email*</mat-label>
+        <input name="email" matInput placeholder="Ex. pat@example.com" [(ngModel)]="driver.email">
+    </mat-form-field>
+    <mat-form-field class="mobileNumber">
+        <mat-label>Telephone*</mat-label>
+        <span matPrefix>+91 &nbsp;</span>
+        <input name="mobile" type="tel" matInput [(ngModel)]="driver.phoneNumber">
+    </mat-form-field>
+    <mat-form-field class="licence">
+        <mat-label>Licence Number*</mat-label>
+        <input name="licenseNumber" matInput placeholder="Ex. 12345BANKA90" [(ngModel)]="driver.licenseNumber">
+    </mat-form-field>
+    <mat-form-field class="carNumber">
+        <mat-label>Car Number*</mat-label>
+        <input name="carNumber" matInput placeholder="Ex. KA03AT1234" [(ngModel)]="driver.carNumber">
+    </mat-form-field>
+    <div class="button-row">
+        <button mat-raised-button color="warn" (click)="onClose()">Close</button>
+        <button name="add_driver_btn" class="add_driver_btn" mat-raised-button color="primary" type="submit"
+            (click)="addNewDriver()">Save</button>
+    </div>
+</form>

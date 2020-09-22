@@ -1,0 +1,26 @@
+<div class="mainContainer">
+    <button mat-raised-button color="primary" *ngIf="!isInregisterMode" type="submit" class="register"
+        (click)="registerPassenger()">Register</button>
+
+    <form *ngIf="isInregisterMode" class="add_passenger_form">
+        <mat-form-field>
+            <input name="name" matInput placeholder="Name*" [(ngModel)]="passenger.name">
+        </mat-form-field>
+        <mat-form-field class="email">
+            <mat-label>Email*</mat-label>
+            <input name="email" matInput placeholder="Ex. pat@example.com" [(ngModel)]="passenger.email">
+        </mat-form-field>
+        <mat-form-field class="mobileNumber">
+            <mat-label>Telephone*</mat-label>
+            <span matPrefix>+91 &nbsp;</span>
+            <input name="mobile" type="tel" matInput [(ngModel)]="passenger.phoneNumber">
+        </mat-form-field>
+
+        <div class="button-row">
+            <button mat-raised-button color="warn" (click)="onClose()">Close</button>
+            <button name="add_passenger_btn" class="add_passenger_btn" mat-raised-button color="primary" type="submit"
+                (click)="addNewPassenger()">Save</button>
+        </div>
+
+    </form>
+</div>
