@@ -14,3 +14,13 @@
     flex-direction: column;
     width: 40%;
 }
+
+.userSection{
+    margin-top: 10px;
+    border: solid 1px red;
+}
+
+.loggedInUserDetails{
+    display: flex;
+    flex-direction: column;
+}

@@ -2,6 +2,7 @@ const express = require('express');
 
 // to vaildate the req body content
 const { validationResult } = require('express-validator');
+const { changeStatus } = require('../models/driver');
 
 //import driver and location models
 const driverModel = require('../models/driver');
@@ -31,7 +32,7 @@ exports.registerDriver = ((req, res, next) => {
 
         //if unique driver then go ahead and register him/her
         if (!found) {
-            const newDriver = new driverModel(new Date().valueOf(), driverName, driverEmail, phoneNumber, licenseNumber, carNumber);
+            const newDriver = new driverModel(new Date().valueOf(), driverName, driverEmail, phoneNumber, licenseNumber, carNumber, true);
             const result = newDriver.save();
 
             res.status(201);
@@ -65,13 +66,21 @@ exports.shareDriverLocation = ((req, res, next) => {
         const latitude = req.body.latitude;
         const longitude = req.body.longitude;
 
-        //add the driver location in the array
-        const newLocation = new driverLocation(id, latitude, longitude);
-        newLocation.save();
+        const dLocations = driverLocation.fetchAll();
+        if (dLocations.findIndex((obj => obj.id == id)) >= 0) {
+            console.log('update');
+            driverLocation.updateDriverLocation(id, latitude, longitude);
+        }
+        else {
+            console.log('add');
+            //add the driver location in the array
+            const newLocation = new driverLocation(id, latitude, longitude);
+            newLocation.save();
+        }
 
         //send the response
         res.status(202);
-        res.send(JSON.stringify({ "status": "success" }));
+        res.send(JSON.stringify({ "status": "successfully updated drivers location" }));
     }
 });
 
@@ -84,7 +93,12 @@ exports.getAllDrivers = ((req, res, next) => {
 
 //function to switch the driver's availability
 exports.switchAvailability = ((req, res, next) => {
+    const id = parseInt(req.params.id);
+    driverModel.changeStatus(id);
 
+    //send the response
+    res.status(200);
+    res.send(driverModel.fetchAll());
 });
 
 function isDriverAlreadyPresent(driverEmail, phoneNumber, licenseNumber, carNumber) {

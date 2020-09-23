@@ -5,7 +5,7 @@ const { body } = require('express-validator');
 const driverController = require('../controllers/driver');
 
 //route for registring the drivers location
-router.post('/:id/updateLocation', [
+router.post('/updateLocation/:id', [
     body('latitude').trim().notEmpty(),
     body('latitude').trim().isNumeric(),
     body('longitude').trim().notEmpty(),
@@ -14,7 +14,7 @@ router.post('/:id/updateLocation', [
     driverController.shareDriverLocation);
 
 //route to switch drivers availability
-router.put('/switchAvailability', driverController.switchAvailability);
+router.get('/switchAvailability/:id', driverController.switchAvailability);
 
 //route to get all the available drivers
 router.get('/getAllDrivers', driverController.getAllDrivers);

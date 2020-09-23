@@ -4,5 +4,5 @@ export class PassengerModel {
     id: number;
     name: string;
     email: string;
-    phoneNumber: string;
+    phoneNumber: number;
 }

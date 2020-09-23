@@ -2,7 +2,7 @@ const createError = require('http-errors');
 const express = require('express');
 const logger = require('morgan');
 const bodyparser = require('body-parser');
-
+const cors = require('cors');
 //import the driver and passenger(rider) router
 const driverRouter = require('./routes/driver');
 const passengerRouter = require('./routes/passenger');
@@ -15,6 +15,7 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
 
 //handle cors policy
+app.use(cors());
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

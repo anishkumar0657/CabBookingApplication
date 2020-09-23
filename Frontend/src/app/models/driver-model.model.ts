@@ -7,4 +7,5 @@ export class DriverModel {
     phoneNumber: string;
     licenseNumber: string;
     carNumber: string;
+    status: boolean;
 }

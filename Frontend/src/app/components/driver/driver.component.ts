@@ -61,6 +61,13 @@ export class DriverComponent implements OnInit {
     });
   }
 
+  onStatusChange(id: number) {
+    this.cabservice.switchDriverAvailability(id).subscribe((result: DriverModel[]) => {
+      this.availableDrivers = result;
+    });
+  }
+
+
   onLocationUpdate(id: number, name: string) {
 
     const dialogRef = this.dialog.open(UpdateLocationDialog, {

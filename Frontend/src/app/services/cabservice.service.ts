@@ -9,7 +9,7 @@ export class CabserviceService {
   constructor(private readonly webService: WebserviceService) { }
 
   updateCabLocation(id: number, payload) {
-    return this.webService.post(`api/driver/${id}/updateLocation`, payload);
+    return this.webService.post(`api/driver/updateLocation/${id}`, payload);
   }
 
   getAllDrivers() {
@@ -21,8 +21,8 @@ export class CabserviceService {
     return this.webService.post('api/driver/register', payload);
   }
 
-  switchDriverAvailability(payload) {
-    return this.webService.put('api/driver/switchAvailability', payload);
+  switchDriverAvailability(id: number) {
+    return this.webService.get(`api/driver/switchAvailability/${id}`);
   }
 
   registerPassenger(payload) {

@@ -2,25 +2,79 @@
     <button mat-raised-button color="primary" *ngIf="!isInregisterMode" type="submit" class="register"
         (click)="registerPassenger()">Register</button>
 
-    <form *ngIf="isInregisterMode" class="add_passenger_form">
-        <mat-form-field>
-            <input name="name" matInput placeholder="Name*" [(ngModel)]="passenger.name">
-        </mat-form-field>
-        <mat-form-field class="email">
-            <mat-label>Email*</mat-label>
-            <input name="email" matInput placeholder="Ex. pat@example.com" [(ngModel)]="passenger.email">
-        </mat-form-field>
-        <mat-form-field class="mobileNumber">
-            <mat-label>Telephone*</mat-label>
-            <span matPrefix>+91 &nbsp;</span>
-            <input name="mobile" type="tel" matInput [(ngModel)]="passenger.phoneNumber">
-        </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" class="register" (click)="onUserLogin()">Login</button>
 
-        <div class="button-row">
-            <button mat-raised-button color="warn" (click)="onClose()">Close</button>
-            <button name="add_passenger_btn" class="add_passenger_btn" mat-raised-button color="primary" type="submit"
-                (click)="addNewPassenger()">Save</button>
-        </div>
+    <div *ngIf="!isInregisterMode" class="userSection">
 
-    </form>
+        <mat-grid-list cols="2" rowHeight="400px">
+            <mat-grid-tile>
+
+                <!-- Login form start -->
+                <form *ngIf="isInLoginMode" class="add_passenger_form">
+                    <mat-form-field class="email">
+                        <mat-label>Email*</mat-label>
+                        <input name="email" matInput placeholder="Ex. pat@example.com" [(ngModel)]="passenger.email">
+                    </mat-form-field>
+                    <mat-form-field class="mobileNumber">
+                        <mat-label>Telephone*</mat-label>
+                        <span matPrefix>+91 &nbsp;</span>
+                        <input name="mobile" type="tel" matInput [(ngModel)]="passenger.phoneNumber">
+                    </mat-form-field>
+                    <div class="button-row">
+                        <button mat-raised-button color="warn" (click)="onLoginClose()">Close</button>
+                        <button name="passenger_login_btn" class="passenger_login_btn" mat-raised-button color="primary"
+                            type="submit" (click)="addNewPassenger()">Login</button>
+                    </div>
+                </form>
+                <!-- login form end -->
+
+                <div *ngIf="loggedInUser" class="loggedInUserDetails">
+                    <h3>User Detail</h3>
+
+                    <label for="Name">Name : {{loggedInUser.name}} </label>
+                    <label for="Email">Email : {{loggedInUser.email}} </label>
+                    <label for="Mobile">Mobile : {{loggedInUser.phoneNumber}} </label>
+
+                    <div class="userActions">
+                        <button mat-raised-button color="primary" type="submit" class="register"
+                            (click)="onGetCab()">Get Cab</button>
+                            
+                        <button mat-raised-button color="primary" type="submit" class="register"
+                            (click)="onTripEnd()">End Trip</button>
+                    </div>
+
+                </div>
+
+
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <button mat-raised-button color="primary" type="submit" class="register"
+                    (click)="showTravelHistory()">View history</button>
+            </mat-grid-tile>
+        </mat-grid-list>
+
+    </div>
 </div>
+
+<form *ngIf="isInregisterMode" class="add_passenger_form">
+    <mat-form-field>
+        <input name="name" matInput placeholder="Name*" [(ngModel)]="passenger.name">
+    </mat-form-field>
+    <mat-form-field class="email">
+        <mat-label>Email*</mat-label>
+        <input name="email" matInput placeholder="Ex. pat@example.com" [(ngModel)]="passenger.email">
+    </mat-form-field>
+    <mat-form-field class="mobileNumber">
+        <mat-label>Telephone*</mat-label>
+        <span matPrefix>+91 &nbsp;</span>
+        <input name="mobile" type="tel" matInput [(ngModel)]="passenger.phoneNumber">
+    </mat-form-field>
+
+    <div class="button-row">
+        <button mat-raised-button color="warn" (click)="onClose()">Close</button>
+        <button name="add_passenger_btn" class="add_passenger_btn" mat-raised-button color="primary" type="submit"
+            (click)="addNewPassenger()">Save</button>
+    </div>
+
+</form>
