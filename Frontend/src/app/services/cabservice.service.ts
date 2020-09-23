@@ -17,7 +17,6 @@ export class CabserviceService {
   }
 
   registerDriver(payload: object) {
-    console.log(payload);
     return this.webService.post('api/driver/register', payload);
   }
 

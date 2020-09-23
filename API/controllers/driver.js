@@ -68,11 +68,9 @@ exports.shareDriverLocation = ((req, res, next) => {
 
         const dLocations = driverLocation.fetchAll();
         if (dLocations.findIndex((obj => obj.id == id)) >= 0) {
-            console.log('update');
             driverLocation.updateDriverLocation(id, latitude, longitude);
         }
         else {
-            console.log('add');
             //add the driver location in the array
             const newLocation = new driverLocation(id, latitude, longitude);
             newLocation.save();

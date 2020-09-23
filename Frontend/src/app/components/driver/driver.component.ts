@@ -38,16 +38,12 @@ export class DriverComponent implements OnInit {
     this.resetDriverRegisterationFormData();
 
   }
+
   resetDriverRegisterationFormData() {
-    this.driver.carNumber = "";
-    this.driver.email = "";
-    this.driver.licenseNumber = "";
-    this.driver.name = "";
-    this.driver.phoneNumber = "";
+    this.driver = null;
   }
   addNewDriver() {
     this.cabservice.registerDriver(this.driver).subscribe(result => {
-      console.log("driver added");
       this.getAllAvailableDrivers();
       this.isInregisterMode = false;
       this.resetDriverRegisterationFormData();
@@ -63,7 +59,7 @@ export class DriverComponent implements OnInit {
 
   onStatusChange(id: number) {
     this.cabservice.switchDriverAvailability(id).subscribe((result: DriverModel[]) => {
-      this.availableDrivers = result;
+      this.getAllAvailableDrivers();
     });
   }
 

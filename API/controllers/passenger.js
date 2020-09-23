@@ -72,7 +72,7 @@ exports.getNearByCabs = ((req, res, next) => {
         const driversLocations = locationModel.fetchAll();
 
         //get all registered drivers
-        const drivers = driverModel.fetchAll();
+        const drivers = driverModel.fetchAll().filter(driver => driver.isAvailable === true);
 
         //filter all the driver/cab present in the distance of 4km.
         //this is done using simple distance calcuation method sqrt((x1-x2)^2 + (y1-y2)^2)
@@ -116,12 +116,12 @@ exports.getRiderHistory = ((req, res, next) => {
 
     //extract all the data from request body
     const passengerID = parseInt(req.params.id);
-
-    const travelDetail = passengerTravelModel.fetchAll().map(passenger => passenger.id == passengerID);
+    console.log(passengerID);
+    const travelDetail = passengerTravelModel.fetchAll().find(passenger => passenger.passengerID == passengerID);
 
     if (travelDetail) {
         res.status(200);
-        res.send(travelDetail);
+        res.send(travelDetail.travelDetail);
     }
     else {
         //result if no cab is found
@@ -132,17 +132,21 @@ exports.getRiderHistory = ((req, res, next) => {
 //function to get all the nearby cabs present within 4km distance
 exports.addRecentTravell = ((req, res, next) => {
 
-    const passengerID = res.params.id;
+    const passengerID = req.params.id;
     const driverName = req.body.name;
     const driverPhoneNumber = req.body.phoneNumber;
     const carNumber = req.body.carNumber;
+    const travelDate = Date.now();
+    console.log(travelDate);
 
-    passengerTravelModel.addRecentTravel(passengerID, driverName, driverPhoneNumber, carNumber, new Date());
+    passengerTravelModel.addRecentTravel(passengerID, driverName, driverPhoneNumber, carNumber, travelDate);
+
+    res.send({ "message": "added travel history" });
 });
 
 //function to get all the nearby cabs present within 4km distance
 exports.passengerSignin = ((req, res, next) => {
-   
+
     const passengerEmail = req.body.email;
 
     const user = passengerModel.fetchAll().find(passenger => passenger.email == passengerEmail);

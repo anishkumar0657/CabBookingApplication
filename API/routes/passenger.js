@@ -31,7 +31,7 @@ router.post('/register', [
 router.get('/getRideHistory/:id', passengerController.getRiderHistory);
 
 //route to add recent travel history
-router.post('/addCurrentTravelDetail', passengerController.addRecentTravell);
+router.post('/addCurrentTravelDetail/:id', passengerController.addRecentTravell);
 
 //route for passenger login
 router.post('/signin', passengerController.passengerSignin);

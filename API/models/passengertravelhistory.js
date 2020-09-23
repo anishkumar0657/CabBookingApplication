@@ -20,7 +20,7 @@ module.exports = class TravelHistory {
     }
 
     static addRecentTravel(passengerID, driverName, driverPhoneNumber, carNumber, travelDate) {
-        const passengerIndex = driverDetail.findIndex((passenger => passenger.customerID == passengerID));
+        const passengerIndex = passengerTravelDetail.findIndex((passenger => passenger.passengerID == passengerID));
         if (passengerIndex != null) {
             passengerTravelDetail[passengerIndex].travelDetail
                 .push({

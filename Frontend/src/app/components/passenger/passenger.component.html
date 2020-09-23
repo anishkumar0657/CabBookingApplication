@@ -4,14 +4,14 @@
 
 
     <button mat-raised-button color="primary" *ngIf="!isInLoginMode && !isInregisterMode" type="submit" class="Login"
-        (click)="onUserLogin()">Login</button>
+        (click)="onUserLogin()">{{access}}</button>
 
 
     <div *ngIf="!isInregisterMode" class="userSection">
 
         <mat-grid-list cols="2" rowHeight="400px">
             <mat-grid-tile>
-
+                <label *ngIf="!loggedInUser && !isInLoginMode" for="loginToContinue">{{loginToContinue}}</label>
                 <!-- Login form start -->
                 <form *ngIf="isInLoginMode" class="add_passenger_form">
                     <mat-form-field class="email">
@@ -26,13 +26,14 @@
                     <div class="button-row">
                         <button mat-raised-button color="warn" (click)="onLoginClose()">Close</button>
                         <button name="passenger_login_btn" class="passenger_login_btn" mat-raised-button color="primary"
-                            type="submit" (click)="onUserSignin()">Signin</button>
+                            type="submit" (click)="onUserSignin()">Sign in</button>
                     </div>
                 </form>
                 <!-- login form end -->
 
                 <!-- showing logged-in user's details -->
                 <div *ngIf="loggedInUser" class="loggedInUserDetails">
+
                     <h3>User Detail</h3>
 
                     <label for="Name">Name : {{loggedInUser.name}} </label>
@@ -58,18 +59,30 @@
                             (click)="onTripEnd()">End Trip</button>
                     </div>
 
+                    <label *ngIf="!assignedCab" for="">{{cabAvailMessage}}</label>
+                    <label *ngIf="assignedCab" for="">{{tripStarted}}</label>
                 </div>
 
             </mat-grid-tile>
 
 
             <mat-grid-tile>
-                <button mat-raised-button color="primary" *ngIf="loggedInUser" type="submit" class="register"
-                    (click)="showTravelHistory()">View history</button>
-
-                <!-- show travel history of logged-in user -->
-
-                <!-- end travel history -->
+                <div class="rightGrid">
+                    <button mat-raised-button color="primary" *ngIf="loggedInUser" type="submit" class="historyButton"
+                        (click)="showTravelHistory()">{{historyButtonText}}</button>
+                    <!-- show travel history of logged-in user -->
+                    <div class="history" *ngFor="let travelHistory of passengerTravelHistory">
+                        <div class="data">
+                            <label for="Date">Travel Date: {{travelHistory.travelDate}}</label>
+                            <h3>Driver Details</h3>
+                            <label for="driverName">Driver Name: {{travelHistory.driverName}}</label>
+                            <label for="driverPhoneNumber">Phone Number: {{travelHistory.driverPhoneNumber}}</label>
+                            <label for="carNumber">Car Number: {{travelHistory.carNumber}}</label>
+                            <hr>
+                        </div>
+                    </div>
+                    <!-- end travel history -->
+                </div>
             </mat-grid-tile>
         </mat-grid-list>
 
