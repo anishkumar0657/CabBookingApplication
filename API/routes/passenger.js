@@ -28,6 +28,12 @@ router.post('/register', [
 
 
 //route for getting the passengers travell history
-router.get('/getRideHistory/:id', passengerController.registerPassenger);
+router.get('/getRideHistory/:id', passengerController.getRiderHistory);
+
+//route to add recent travel history
+router.post('/addCurrentTravelDetail', passengerController.addRecentTravell);
+
+//route for passenger login
+router.post('/signin', passengerController.passengerSignin);
 
 module.exports = router; 

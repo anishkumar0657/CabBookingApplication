@@ -20,7 +20,11 @@
     border: solid 1px red;
 }
 
-.loggedInUserDetails{
+.loggedInUserDetails, .driverDetails{
     display: flex;
     flex-direction: column;
+}
+
+.spacer{
+    height:20px;
 }

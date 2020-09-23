@@ -1,8 +1,11 @@
 <div class="mainContainer">
-    <button mat-raised-button color="primary" *ngIf="!isInregisterMode" type="submit" class="register"
+    <button mat-raised-button color="primary" *ngIf="!isInregisterMode && !isInLoginMode" type="submit" class="register"
         (click)="registerPassenger()">Register</button>
 
-    <button mat-raised-button color="primary" type="submit" class="register" (click)="onUserLogin()">Login</button>
+
+    <button mat-raised-button color="primary" *ngIf="!isInLoginMode && !isInregisterMode" type="submit" class="Login"
+        (click)="onUserLogin()">Login</button>
+
 
     <div *ngIf="!isInregisterMode" class="userSection">
 
@@ -13,21 +16,22 @@
                 <form *ngIf="isInLoginMode" class="add_passenger_form">
                     <mat-form-field class="email">
                         <mat-label>Email*</mat-label>
-                        <input name="email" matInput placeholder="Ex. pat@example.com" [(ngModel)]="passenger.email">
+                        <input name="email" matInput placeholder="Ex. pat@example.com" [(ngModel)]="logEmail">
                     </mat-form-field>
                     <mat-form-field class="mobileNumber">
                         <mat-label>Telephone*</mat-label>
                         <span matPrefix>+91 &nbsp;</span>
-                        <input name="mobile" type="tel" matInput [(ngModel)]="passenger.phoneNumber">
+                        <input name="mobile" type="tel" matInput [(ngModel)]="logMobile">
                     </mat-form-field>
                     <div class="button-row">
                         <button mat-raised-button color="warn" (click)="onLoginClose()">Close</button>
                         <button name="passenger_login_btn" class="passenger_login_btn" mat-raised-button color="primary"
-                            type="submit" (click)="addNewPassenger()">Login</button>
+                            type="submit" (click)="onUserSignin()">Signin</button>
                     </div>
                 </form>
                 <!-- login form end -->
 
+                <!-- showing logged-in user's details -->
                 <div *ngIf="loggedInUser" class="loggedInUserDetails">
                     <h3>User Detail</h3>
 
@@ -35,28 +39,45 @@
                     <label for="Email">Email : {{loggedInUser.email}} </label>
                     <label for="Mobile">Mobile : {{loggedInUser.phoneNumber}} </label>
 
-                    <div class="userActions">
+                    <div class="userActions" *ngIf="!assignedCab">
                         <button mat-raised-button color="primary" type="submit" class="register"
                             (click)="onGetCab()">Get Cab</button>
-                            
+                    </div>
+
+                    <hr *ngIf="assignedCab">
+
+                    <div *ngIf="assignedCab" class="spacer">
+
+                    </div>
+                    <div *ngIf="assignedCab" class="driverDetails">
+                        <h3>Driver Detail</h3>
+                        <label for="Name">Name : {{assignedCab.name}} </label>
+                        <label for="Mobile">Mobile : {{assignedCab.phoneNumber}} </label>
+                        <label for="Cab Number">Cab Number : {{assignedCab.carNumber}} </label>
                         <button mat-raised-button color="primary" type="submit" class="register"
                             (click)="onTripEnd()">End Trip</button>
                     </div>
 
                 </div>
 
-
             </mat-grid-tile>
 
+
             <mat-grid-tile>
-                <button mat-raised-button color="primary" type="submit" class="register"
+                <button mat-raised-button color="primary" *ngIf="loggedInUser" type="submit" class="register"
                     (click)="showTravelHistory()">View history</button>
+
+                <!-- show travel history of logged-in user -->
+
+                <!-- end travel history -->
             </mat-grid-tile>
         </mat-grid-list>
 
     </div>
 </div>
 
+
+<!-- registration form start -->
 <form *ngIf="isInregisterMode" class="add_passenger_form">
     <mat-form-field>
         <input name="name" matInput placeholder="Name*" [(ngModel)]="passenger.name">
@@ -74,7 +95,7 @@
     <div class="button-row">
         <button mat-raised-button color="warn" (click)="onClose()">Close</button>
         <button name="add_passenger_btn" class="add_passenger_btn" mat-raised-button color="primary" type="submit"
-            (click)="addNewPassenger()">Save</button>
+            (click)="addNewPassenger()">Register</button>
     </div>
 
 </form>

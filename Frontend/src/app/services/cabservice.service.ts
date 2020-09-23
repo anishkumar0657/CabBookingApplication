@@ -16,7 +16,7 @@ export class CabserviceService {
     return this.webService.get('api/driver/getAllDrivers');
   }
 
-  registerDriver(payload) {
+  registerDriver(payload: object) {
     console.log(payload);
     return this.webService.post('api/driver/register', payload);
   }
@@ -25,15 +25,23 @@ export class CabserviceService {
     return this.webService.get(`api/driver/switchAvailability/${id}`);
   }
 
-  registerPassenger(payload) {
+  registerPassenger(payload: object) {
     return this.webService.post('api/passenger/register', payload);
   }
 
-  bookCab() {
-    return this.webService.get('api/passenger/available_cabs');
+  bookCab(payload: object) {
+    return this.webService.post('api/passenger/available_cabs', payload);
   }
 
   getRidesHistory(id: number) {
     return this.webService.get(`api/passenger/getRideHistory/${id}`);
+  }
+
+  addCurrentTravelDetail(id: number, payload: object) {
+    return this.webService.post(`api/passenger/addCurrentTravelDetail/${id}`, payload);
+  }
+  
+  passengerSignin(payload: object) {
+    return this.webService.post('api/passenger/signin', payload);
   }
 }

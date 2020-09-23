@@ -3,10 +3,9 @@ const passengerTravelDetail = [];
 
 //Passenger class to define the driver model
 module.exports = class TravelHistory {
-    constructor(customerID, driverID, travelDate) {
-        this.customerID = customerID;
-        this.driverID = driverID;
-        this.travelDate = travelDate;
+    constructor(passengerID) {
+        this.passengerID = passengerID;
+        this.travelDetail = [];
     }
 
     //method to add the entry in the array
@@ -18,5 +17,18 @@ module.exports = class TravelHistory {
     //static method to fetch / return all the Passenger details present in the array
     static fetchAll() {
         return passengerTravelDetail;
+    }
+
+    static addRecentTravel(passengerID, driverName, driverPhoneNumber, carNumber, travelDate) {
+        const passengerIndex = driverDetail.findIndex((passenger => passenger.customerID == passengerID));
+        if (passengerIndex != null) {
+            passengerTravelDetail[passengerIndex].travelDetail
+                .push({
+                    driverName: driverName,
+                    driverPhoneNumber: driverPhoneNumber,
+                    carNumber: carNumber,
+                    travelDate: travelDate
+                });
+        }
     }
 }

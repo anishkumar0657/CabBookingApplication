@@ -5,6 +5,8 @@ const { validationResult } = require('express-validator');
 const locationModel = require('../models/location');
 const driverModel = require('../models/driver');
 const passengerModel = require('../models/passenger');
+const passengerTravelModel = require('../models/passengertravelhistory');
+
 
 //function to register the passenger/rider
 exports.registerPassenger = ((req, res, next) => {
@@ -30,6 +32,10 @@ exports.registerPassenger = ((req, res, next) => {
         if (!found) {
             const newPassenger = new passengerModel(new Date().valueOf(), passengerName, passengerEmail, phoneNumber);
             const result = newPassenger.save();
+
+            //adding passenger entry in the travell model
+            const trvelDetail = new passengerTravelModel(result.id);
+            trvelDetail.save();
 
             res.status(201);
             res.send(result);
@@ -94,7 +100,7 @@ exports.getNearByCabs = ((req, res, next) => {
                 }));
 
             res.status(200);
-            res.send({ "available_cabs": mergedList });
+            res.send(mergedList);
         }
 
         else {
@@ -104,11 +110,51 @@ exports.getNearByCabs = ((req, res, next) => {
     }
 });
 
+
+//function to get all the nearby cabs present within 4km distance
+exports.getRiderHistory = ((req, res, next) => {
+
+    //extract all the data from request body
+    const passengerID = parseInt(req.params.id);
+
+    const travelDetail = passengerTravelModel.fetchAll().map(passenger => passenger.id == passengerID);
+
+    if (travelDetail) {
+        res.status(200);
+        res.send(travelDetail);
+    }
+    else {
+        //result if no cab is found
+        res.send({ "message": "No Travel History Found!" });
+    }
+});
+
+//function to get all the nearby cabs present within 4km distance
+exports.addRecentTravell = ((req, res, next) => {
+
+    const passengerID = res.params.id;
+    const driverName = req.body.name;
+    const driverPhoneNumber = req.body.phoneNumber;
+    const carNumber = req.body.carNumber;
+
+    passengerTravelModel.addRecentTravel(passengerID, driverName, driverPhoneNumber, carNumber, new Date());
+});
+
+//function to get all the nearby cabs present within 4km distance
+exports.passengerSignin = ((req, res, next) => {
+   
+    const passengerEmail = req.body.email;
+
+    const user = passengerModel.fetchAll().find(passenger => passenger.email == passengerEmail);
+    console.log(user);
+    res.status(200);
+    res.send(user);
+});
+
 //funstion to merge two array using a common key
 function mergeArrayObjects(arr1, arr2) {
     return arr1.map(x => Object.assign(x, arr2.find(y => y.id == x.id)));
 }
-
 
 function isPassengerAlreadyRegistered(driverEmail, phoneNumber) {
     const existingPassengers = passengerModel.fetchAll();
